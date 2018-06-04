@@ -13,7 +13,7 @@ my $Doc_XLS = $parser->parse($GTM_ExcelFile);
 
 my $GTM_STSFile = qw(C:\Users\NaikChet\Documents\ITRAutomation_TempFiles\ITR_Automation_GTM\STS_1.xml);
 my $xmlParser = XML::LibXML->new();
-my $Doc_STS = $parser->parse($GTM_STSFile);
+my $Doc_STS = $xmlParser->parse($GTM_STSFile);
 
 unless((-f $GTM_STSFile) and (-f $GTM_ExcelFile )){
 	print "Both File Not Exists  \n";
