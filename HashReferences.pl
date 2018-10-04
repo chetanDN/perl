@@ -15,13 +15,6 @@ $NewHash->{'GTM_TC_CONF_283_06'}->{'Traceability'} = [qw(TC_SAS_NAS_GTM_PR63_168
 $NewHash->{'GTM_TC_CONF_283_06'}->{'Type'} = "CONFIGURATION";
 $NewHash->{'GTM_TC_CONF_283_06'}->{'Functionality'} = "NA";
 
-$NewHash->{'GTM_TC_CONF_306'}->{'Traceability'} = [qw(TC_SRD_NAS_EP_GTM_PR3054_3_C306)];
-$NewHash->{'GTM_TC_CONF_306'}->{'Type'} = "CONFIGURATION";
-$NewHash->{'GTM_TC_CONF_306'}->{'Functionality'} = "Test for Gtm_Deinit API Enable/Disable in User Mode";
-
-$NewHash->{'GTM_TC_CONF_022'}->{'Traceability'} = [qw(TC_SAS_NAS_GTM_PR63_44_C022)];
-$NewHash->{'GTM_TC_CONF_022'}->{'Type'} = "CONFIGURATION";
-$NewHash->{'GTM_TC_CONF_022'}->{'Functionality'} = "NA";
 
 # $NewHash->{'GTM_TC_REV_010'}->{'Type'} = "REVIEW";
 # my @FilteredTagsList = qw(TC_SDS_MCAL_GTM_0120_R01010 TC_SRD_NAS_GTM_PR102_R01010);
@@ -42,19 +35,7 @@ $NewHash2->{'GTM_TC_CONF_222_06'}->{'Traceability'} = [qw(TC_SAS_NAS_GTM_PR63_16
 $NewHash2->{'GTM_TC_CONF_222_06'}->{'Type'} = "CONFIGURATION";
 $NewHash2->{'GTM_TC_CONF_222_06'}->{'Functionality'} = "NA";
 
-$NewHash2->{'GTM_TC_CONF_333'}->{'Traceability'} = [qw(TC_SRD_NAS_EP_GTM_PR3054_3_C306)];
-$NewHash2->{'GTM_TC_CONF_333'}->{'Type'} = "CONFIGURATION";
-$NewHash2->{'GTM_TC_CONF_333'}->{'Functionality'} = "Test for Gtm_Deinit API Enable/Disable in User Mode";
-
-$NewHash2->{'GTM_TC_CONF_444'}->{'Traceability'} = [qw(TC_SAS_NAS_GTM_PR63_44_C022)];
-$NewHash2->{'GTM_TC_CONF_444'}->{'Type'} = "CONFIGURATION";
-$NewHash2->{'GTM_TC_CONF_444'}->{'Functionality'} = "NA";
-
-$NewHash2->{'GTM_TC_CONF_555'}->{'Traceability'} = [qw(TC_SAS_NAS_GTM_PR63_44_C022)];
-$NewHash2->{'GTM_TC_CONF_555'}->{'Type'} = "CONFIGURATION";
-$NewHash2->{'GTM_TC_CONF_555'}->{'Functionality'} = "NA";
-
-$NewHash2->{'GTM_TC_REV_010'}->{'Traceability'} = [qw(TC_SAS_NAS_GTM_PR63_44_C022)];
+$NewHash2->{'GTM_TC_REV_010'}->{'Traceability'} = [qw()];
 $NewHash2->{'GTM_TC_REV_010'}->{'Type'} = "CONFIGURATION";
 $NewHash2->{'GTM_TC_REV_010'}->{'Functionality'} = "NA";
 
@@ -72,12 +53,19 @@ print Dumper \%hash2;
 print "\n\n from for loop\n";
 foreach my $tc (keys %hash2){
 	if(grep($tc eq $_,(keys %hash1))){
-		print "$tc exists\n";
+		# print "$tc exists\n";		
+		my $TraceabilityRef = $hash2{$tc}{'Traceability'};
+		my @Traceability_List = @$TraceabilityRef;
+		print "Tracabiluty list : @Traceability_List\n";
+		foreach my $tt (@{$hash2{$tc}{'Traceability'}}){
+			next if(grep($tt eq $_,@{$hash1{$tc}{'Traceability'}}));
+			push @{$hash1{$tc}{'Traceability'}},$tt;			
+		}
 	}else{
-		print "$tc doesnt exist\n";
-		print "hash from loop \n";
-		print Dumper \$hash2{$tc};
-		# $hash1{$tc}=($hash2{$tc});
+		# print "$tc doesnt exist\n";
+		# print "hash from loop \n";
+		# # print Dumper \$hash2{$tc};
+		$hash1{$tc}=($hash2{$tc});
 	}
 }
 
